@@ -5,7 +5,6 @@ Weijie Wang
 
 Contact info:
 
-
 Phone: 518-596-6178
 
 Email: ww2403@nyu.edu
@@ -14,9 +13,9 @@ John Gonzalez
 
 Contact info:
 
-Phone: 
+Phone: 609-582-2880
 
-Email: 
+Email: jgonzalez@nyu.edu
 
 Description 
 
