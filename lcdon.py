@@ -1,8 +1,6 @@
-import board
-import adafruit_gps
 #import chardet
 import os
-import sys
+import sys 
 import time
 import logging
 import spidev as SPI
@@ -14,8 +12,8 @@ from PIL import Image,ImageDraw,ImageFont
 RST = 27
 DC = 25
 BL = 18
-bus = 0
-device = 0
+bus = 0 
+device = 0 
 logging.basicConfig(level=logging.DEBUG)
 try:
     # display with hardware SPI:
@@ -37,7 +35,7 @@ try:
     draw.arc((1,1,239,239),0, 360, fill =(0,0,255))
     draw.arc((2,2,238,238),0, 360, fill =(0,0,255))
     draw.arc((3,3,237,237),0, 360, fill =(0,0,255))
-
+    
     logging.info("draw dial line")
     draw.line([(120, 1),(120, 12)], fill = (128,255,128),width = 4)
     draw.line([(120, 227),(120, 239)], fill = (128,255,128),width = 4)
@@ -52,58 +50,25 @@ try:
     draw.text((40, 50), 'WaveShare', fill = (128,255,128),font=Font2)
     text= u"ww2403"
     draw.text((74, 150),text, fill = "WHITE",font=Font3)
-
+    
     logging.info("draw pointer line")
     draw.line([(120, 120),(70, 70)], fill = "YELLOW",width = 3)
     draw.line([(120, 120),(176, 64)], fill = "BLUE",width = 3)
-    draw.line([(120, 120),(120 ,210)], fill = "RED",width = 3)
-
+    draw.line([(120, 120),(120 ,210)], fill = "RED",width = 3)   
+ 
     im_r=image1.rotate(180)
     disp.ShowImage(im_r)
     time.sleep(3)
     logging.info("show image")
-    image = Image.open('../pic/LCD_1inch28_1.jpg')
+    image = Image.open('../pic/LCD_1inch28_1.jpg')	
     im_r=image.rotate(180)
     disp.ShowImage(im_r)
     time.sleep(3)
     disp.module_exit()
     logging.info("quit:")
 except IOError as e:
-    logging.info(e)
+    logging.info(e)    
 except KeyboardInterrupt:
     disp.module_exit()
     logging.info("quit:")
     exit()
-
-def info():
-	'''Prints a basic library description'''
-	print("Software library for the Commuter+ project.")
-
-def turnOnGPS():
-	# GPS Module is set to 9600 baudrate by default
-	uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=300)
-	gps = adafruit_gps.GPS(uart, debug=False)
-
-	# Turns on basic GGA and RMC info, inludes location so it should be enough
-	gps.send_command(b"PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
-
-	# 1Hz updates
-	gps.send_command(b"PMTK220,1000")
-	return
-
-def grabLocation():
-	# Update gps before every location grab
-	gps.update()
-        # Every second print out current location details if there's a fix.
-        current = time.monotonic()
-        if  current - last_print >= 1.0:
-                last_print = current
-                if not gps.has_fix:
-                        print("Waiting for fix...")
-                        continue
-                print("Latitude: {0:.6f} degrees".format(gps.latitude))
-                print("Longitude: {0:.6f} degrees".format(gps.longitude))
-	return (gps.latitude, gps.longitude)
-
-def main():
-	turnOnGPS()
