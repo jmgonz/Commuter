@@ -1,24 +1,17 @@
 import time
 import board
-import busio
 import serial
 
 import adafruit_gps
 
-# Chip uses 9600 baudrate by default
+
 def gpsTestRun():
+	# GPS uses 9600 baudrate by default
 	uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=3000)
 
 	gps = adafruit_gps.GPS(uart)
 	gps.send_command(b"PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
-# Turn on just minimum info (RMC only, location):
-# gps.send_command(b'PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
-# Turn off everything:
-# gps.send_command(b'PMTK314,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
-# Turn on everything (not all of it is parsed!)
-# gps.send_command(b'PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0')
-
-# Set update rate to once a second, 1hz
+	# Set update rate to once a second, 1hz
 	gps.send_command(b"PMTK220,1000")
 
 	timestamp = time.monotonic()
@@ -37,3 +30,4 @@ def gpsTestRun():
 def main():
 	gpsTestRun()
 
+main()
