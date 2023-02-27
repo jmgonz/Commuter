@@ -16,6 +16,7 @@ def gpsTestRun():
 
 	timestamp = time.monotonic()
 	while True:
+		gps.update()
         	data = gps.read(32) # Reads up to 32 bytes
 
 	        if data is not None:
