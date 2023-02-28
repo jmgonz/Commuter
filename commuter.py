@@ -10,6 +10,11 @@ sys.path.append("..")
 from lib import LCD_1inch28
 from PIL import Image,ImageDraw,ImageFont
 
+def info():
+    '''Prints a basic library description'''
+    print("Software library for the Commuter project.")
+
+
 # Raspberry Pi pin configuration:
 RST = 27
 DC = 25
@@ -93,7 +98,7 @@ def turnOnGPS():
 
 def grabLocation():
 	# Update gps before every location grab
-	gps.update()
+        gps.update()
         # Every second print out current location details if there's a fix.
         current = time.monotonic()
         if  current - last_print >= 1.0:
@@ -103,7 +108,7 @@ def grabLocation():
                         continue
                 print("Latitude: {0:.6f} degrees".format(gps.latitude))
                 print("Longitude: {0:.6f} degrees".format(gps.longitude))
-	return (gps.latitude, gps.longitude)
+        return (gps.latitude, gps.longitude)
 
 def main():
 	turnOnGPS()
