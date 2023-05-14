@@ -2,7 +2,7 @@ import board
 import adafruit_gps
 import os, sys, time, logging, random
 import os.path
-import BLEHeartRateLogger
+import serial
 import spidev as SPI
 import RPi.GPIO as GPIO
 from threading import Thread
@@ -51,16 +51,12 @@ def turnOnLCD():
     draw = ImageDraw.Draw(image1)
 
     updateHR()
-    if (heartrate<100): # Green circle to indicate stress
-        logging.info("draw circle")
-        draw.arc((1,1,239,239),0, 360, fill =(0,255,0))
-        draw.arc((2,2,238,238),0, 360, fill =(0,255,0))
-        draw.arc((3,3,237,237),0, 360, fill =(0,255,0))
-    else: # Red circle to indicate stress
-        logging.info("draw circle")
-        draw.arc((1,1,239,239),0, 360, fill =(255,0,0))
-        draw.arc((2,2,238,238),0, 360, fill =(255,0,0))
-        draw.arc((3,3,237,237),0, 360, fill =(255,0,0))
+    # Green if heartrate is below threshold, red otherwise
+    fillColor = (0,255,0) if heartrate<100 else (255,0,0)
+    logging.info("draw circle")
+    draw.arc((1,1,239,239),0, 360, fill = fillColor)
+    draw.arc((2,2,238,238),0, 360, fill = fillColor)
+    draw.arc((3,3,237,237),0, 360, fill = fillColor)
 
     logging.info("draw text")
     Font = ImageFont.truetype("../Font/Font02.ttf",32)
@@ -116,8 +112,6 @@ def screenToggle():
 #  Changes screen circle to red to give user feedback
 def flashLCDRed():
     # display with hardware SPI:
-    ''' Warning!!!Don't  creation of multiple displayer objects!!! >'''
-    #disp = LCD_1inch28.LCD_1inch28(spi=SPI.SpiDev(bus, device),spi>
     disp = LCD_1inch28.LCD_1inch28()
     # Initialize library.
     disp.Init()
@@ -181,7 +175,7 @@ def stressButton():
 
 def screenButton():
 	while True:
-		GPIO.wait_for_edge(screenButton, GPIO.RISING)
+		GPIO.wait_for_edge(screenPin, GPIO.RISING)
 		screenToggle()
 
 
@@ -201,6 +195,6 @@ def main():
     screenButtonT.join()
     gpsT.join()
     lcdT.join()
-    
+
 
 main()
