@@ -222,22 +222,7 @@ def setup():
 	lcdT.join()
 
 
-def setup():
-	GPIO.setmode(GPIO.BCM)
-	global stressPin
-	global screenPin
-	global motorPin
 
-	stressPin = 23
-	screenPin = 24
-	motorPin = 16
-
-	GPIO.setup(stressPin, GPIO.IN)
-	GPIO.setup(screenPin, GPIO.IN)
-	GPIO.setup(motorPin, GPIO.OUT)
-
-	turnOnGPS()
-	turnOnLCD()
 
 def main():
 	setup()
