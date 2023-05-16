@@ -18,7 +18,8 @@ BL = 18
 bus = 0
 device = 0
 screenStatus = True
-heartrate = 85
+# from BLEHeartRateLogger.py
+heartrate = res
 logging.basicConfig(level=logging.DEBUG)
 
 def info():
